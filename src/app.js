@@ -1,7 +1,7 @@
 const express = require('express')
 const sequlize = require('./db/sequelize')
-const Account = require('./models/account')
-const Gsuite = require('./models/gsuite')
+const Customer = require('./models/customer')
+const MailBox = require('./models/mailbox')
 
 const app = express()
 
@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 const createTestData = async () => {
-  const jhon = await Account.create({
+  const jhon = await Customer.create({
     firstName: 'Jhon', 
     lastName: 'Doe', 
     mobileNumber: '+380992454428', 

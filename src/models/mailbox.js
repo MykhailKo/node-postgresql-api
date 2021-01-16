@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes, Model } = require('sequelize')
 const sequelize = require('../db/sequelize')
-const Account = require('./account')
+const Customer = require('./customer')
 
-class Gsuite extends Model {}
+class MailBox extends Model {}
 
-Gsuite.init({
+MailBox.init({
   mailBoxId: {
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -31,10 +31,10 @@ Gsuite.init({
 })
 
 // setting one to many relation(profile can have many mailboxes)
-Account.hasMany(Gsuite)
+Customer.hasMany(MailBox)
 
-Gsuite.sync()
-.then(() => console.log('Gsuite model has been synchronised with DB.'))
-.catch((err) => console.log(new Error(`Error while synchronizing Gsuite model with DB: ${err}`)))
+MailBox.sync()
+.then(() => console.log('MailBox model has been synchronised with DB.'))
+.catch((err) => console.error(`Error while synchronizing MailBox model with DB: ${err}`))
 
-module.exports = Gsuite
+module.exports = MailBox

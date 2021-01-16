@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt')
 const validator = require('validator')
 const sequelize = require('../db/sequelize')
 
-class Account extends Model {}
+class Customer extends Model {}
 
-Account.init({
+Customer.init({
   UUID: {
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -37,12 +37,12 @@ Account.init({
   }
 },{
   sequelize,
-  modelName: 'Account',
+  modelName: 'Customer',
   tableName: 'CUSTOMER_PROFILE'
 })
 
 // hashing account password before storing it
-Account.beforeSave(async (account, options) => {
+Customer.beforeSave(async (account, options) => {
   try {
     const hashPassword = await bcrypt.hash(account.password, 8)
     account.password = hashPassword
@@ -52,7 +52,7 @@ Account.beforeSave(async (account, options) => {
 })
 
 // deleting all mailboxes with a deleted user
-Account.afterDestroy(async (account, options) => {
+Customer.afterDestroy(async (account, options) => {
   try{
     await Gsuite.destroy({
       where: {
@@ -64,8 +64,8 @@ Account.afterDestroy(async (account, options) => {
   }
 })
 
-Account.sync()
-.then(() => console.log('Account model has been synchronized with DB.'))
-.catch((err) => console.log(new Error(`Error while synchronizing Account model with DB: ${err}`)))
+Customer.sync()
+.then(() => console.log('Customer model has been synchronized with DB.'))
+.catch((err) => console.error(`Error while synchronizing Customer model with DB: ${err}`))
 
-module.exports = Account
+module.exports = Customer
