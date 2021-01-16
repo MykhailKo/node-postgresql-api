@@ -2,6 +2,7 @@ const express = require('express')
 const sequlize = require('./db/sequelize')
 const Customer = require('./models/customer')
 const MailBox = require('./models/mailbox')
+const validateSchema = require('./middleware/validateJSON')
 
 const app = express()
 
