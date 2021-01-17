@@ -9,14 +9,12 @@ class MailBoxService {
       return MailBoxService.responseJSON(mailbox)
     }catch(error) {return {error}}
   }
-  async updateMailBox(mailboxJSON){
+  async updateMailBox(id, mailboxJSON){
     try {
       const mailboxData = MailBoxService.utilizeRequestJSON(mailboxJSON)
-      const updateData = mailboxData
-      delete updateData.mailBoxId
-      const mailbox = await MailBox.update(updateData, {
+      const mailbox = await MailBox.update(mailboxData, {
         where: {
-          mailBoxId: mailboxData.mailBoxId
+          mailBoxId: id
         }
       })
       return MailBoxService.responseJSON(mailbox)

@@ -8,7 +8,7 @@ ajv.addSchema(customerSchema, 'customer')
 ajv.addSchema(mailboxSchema, 'mailbox')
 
 const errorResponse = (schemaErrors) => { 
-  const errors = schemaErrors.map((error) => {
+  const error = schemaErrors.map((error) => {
     return {
       path: error.dataPath,
       message: error.message
@@ -16,11 +16,11 @@ const errorResponse = (schemaErrors) => {
   })
   return {
     status: 'failed',
-    errors: errors
+    error
   }
 }
 
-const validateSchema = (schemaName) => {
+const validateJSON = (schemaName) => {
   return (req, res, next) => {
     let valid = ajv.validate(schemaName, req.body)
     if (!valid) {
@@ -30,4 +30,4 @@ const validateSchema = (schemaName) => {
   }
 }
 
-module.exports = validateSchema
+module.exports = validateJSON

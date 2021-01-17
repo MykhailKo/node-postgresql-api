@@ -9,14 +9,12 @@ class CustomerService {
       return CustomerService.responseJSON(customer)
     }catch(error) {return {error}}
   }
-  async updateCustomer(customerJSON){
+  async updateCustomer(id, customerJSON){
     try{
       const customerData = CustomerService.utilizeRequestJSON(customerJSON)
-      const updateData = customerData
-      delete updateData.UUID
-      const customer = await Customer.update(updateData, {
+      const customer = await Customer.update(customerData, {
         where: {
-          UUID: customerData.UUID
+          UUID: id
         }
       })
       return CustomerService.responseJSON(customer)
