@@ -15,8 +15,11 @@ const errorResponse = (schemaErrors) => {
     }
   })
   return {
-    status: 'failed',
-    error
+    error: {
+      name: "JSONSchemaValidationError",
+      status: 'failed',
+      error
+    }
   }
 }
 

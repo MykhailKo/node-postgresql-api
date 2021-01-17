@@ -12,7 +12,9 @@ const mailboxSchema = {
             "const": "aliasName"
           },
           "value": {
-            "type": "string"
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 100
           },
           "valueType": {
             "const": "string"
@@ -22,10 +24,14 @@ const mailboxSchema = {
       }
     },
     "primaryEmail": {
-      "type": "string"
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 100
     },
     "UUID": {
-      "type": "string"
+      "type": "string",
+      "minLength": 36,
+      "maxLength": 36
     }
   },
   "required": ["primaryEmail", "UUID"]

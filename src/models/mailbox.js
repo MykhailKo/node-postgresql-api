@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize')
+const validator = require('validator')
 const sequelize = require('../db/sequelize')
+const { required } = require('../middleware/JSONschemas/mailboxSchema')
 const Customer = require('./customer')
 
 class MailBox extends Model {}
@@ -12,10 +14,22 @@ MailBox.init({
   },
   primaryEmailAddress: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isValidEmail(value){
+        if(!validator.isEmail(value)) throw new Error("Email is improper.")
+      }
+    }
   },
   aliases: {
-    type: DataTypes.ARRAY(DataTypes.STRING)
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    validate: {
+      isValidEmails(values){
+        values.forEach((value) => {
+          if(!validator.isEmail(value)) throw new Error("Email alias is improper.")
+        })
+      }
+    }
   },
   UUID: {
     type: DataTypes.UUID,
@@ -32,9 +46,5 @@ MailBox.init({
 
 // setting one to many relation(profile can have many mailboxes)
 Customer.hasMany(MailBox)
-
-MailBox.sync()
-.then(() => console.log('MailBox model has been synchronised with DB.'))
-.catch((err) => console.error(`Error while synchronizing MailBox model with DB: ${err}`))
 
 module.exports = MailBox

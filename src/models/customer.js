@@ -64,8 +64,4 @@ Customer.beforeDestroy(async (account, options) => {
   }
 })
 
-Customer.sync()
-.then(() => console.log('Customer model has been synchronized with DB.'))
-.catch((err) => console.error(`Error while synchronizing Customer model with DB: ${err}`))
-
 module.exports = Customer

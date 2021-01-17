@@ -59,10 +59,11 @@ class MailBoxService {
   }
   static responseJSON(mailbox){
     return {
+      "mailboxId": mailbox.mailBoxId,
       "emailAliases": mailbox.aliases.map((alias) => ({
         "name": "aliasName",
         "value": alias,
-        "valueType": "string"
+        "valueType": "string" 
       })),
       "primaryEmail": mailbox.primaryEmailAddress,
       "UUID": mailbox.UUID

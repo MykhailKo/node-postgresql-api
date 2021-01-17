@@ -14,7 +14,9 @@ const customerSchema = {
               "const": "firstName"
             },
             "value": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
             },
             "valueType": {
               "const": "string"
@@ -29,7 +31,9 @@ const customerSchema = {
               "const": "lastName"
             },
             "value": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
             },
             "valueType": {
               "const": "string"
