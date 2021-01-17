@@ -24,7 +24,7 @@ const validateJSON = (schemaName) => {
   return (req, res, next) => {
     let valid = ajv.validate(schemaName, req.body)
     if (!valid) {
-      return res.send(errorResponse(ajv.errors))
+      return res.status(400).send(errorResponse(ajv.errors))
     }
     next()
   }

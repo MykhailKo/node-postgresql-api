@@ -12,7 +12,12 @@ class MailBoxService {
   async updateMailBox(id, mailboxJSON){
     try {
       const mailboxData = MailBoxService.utilizeRequestJSON(mailboxJSON)
-      const mailbox = await MailBox.update(mailboxData, {
+      await MailBox.update(mailboxData, {
+        where: {
+          mailBoxId: id
+        }
+      })
+      const mailbox = await MailBox.findOne({
         where: {
           mailBoxId: id
         }
@@ -43,12 +48,13 @@ class MailBoxService {
   }
   async deleteMailBoxById(id){
     try {
-      const mailbox = await MailBox.destroy({
+      const mailbox = await this.getMailBoxById(id)
+      await MailBox.destroy({
         where: {
           mailBoxId: id
         }
       })
-      return MailBoxService.responseJSON(mailbox)
+      return mailbox
     }catch(error) {return {error}}
   }
   static responseJSON(mailbox){

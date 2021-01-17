@@ -12,7 +12,12 @@ class CustomerService {
   async updateCustomer(id, customerJSON){
     try{
       const customerData = CustomerService.utilizeRequestJSON(customerJSON)
-      const customer = await Customer.update(customerData, {
+      await Customer.update(customerData, {
+        where: {
+          UUID: id
+        }
+      })
+      const customer = await Customer.findOne({
         where: {
           UUID: id
         }
@@ -32,12 +37,13 @@ class CustomerService {
   }
   async deleteCustomerById(id){
     try{
-      const customer = await Customer.destroy({
+      const customer = await this.getCustomerById(id)
+      await Customer.destroy({
         where: {
           UUID: id
         }
       })
-      return CustomerService.responseJSON(customer)
+      return customer
     }catch(error) {return {error}}
   }
   static async responseJSON(customer){

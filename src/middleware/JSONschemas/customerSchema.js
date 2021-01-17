@@ -19,7 +19,8 @@ const customerSchema = {
             "valueType": {
               "const": "string"
             }
-          }
+          },
+          "required": ["name", "value", "valueType"]
         },
         {
           "type": "object",
@@ -33,7 +34,8 @@ const customerSchema = {
             "valueType": {
               "const": "string"
             }
-          }
+          },
+          "required": ["name", "value", "valueType"]
         },
         {
           "type": "object",
@@ -47,7 +49,8 @@ const customerSchema = {
             "valueType": {
               "const": "string"
             }
-          }
+          },
+          "required": ["name", "value", "valueType"]
         },
       ]
     },

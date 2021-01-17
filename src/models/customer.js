@@ -52,7 +52,7 @@ Customer.beforeSave(async (account, options) => {
 })
 
 // deleting all mailboxes with a deleted user
-Customer.afterDestroy(async (account, options) => {
+Customer.beforeDestroy(async (account, options) => {
   try{
     await Gsuite.destroy({
       where: {

@@ -17,7 +17,8 @@ const mailboxSchema = {
           "valueType": {
             "const": "string"
           }
-        }
+        },
+        "required": ["name", "value", "valueType"]
       }
     },
     "primaryEmail": {

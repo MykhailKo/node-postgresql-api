@@ -20,7 +20,7 @@ router.get('/api/gsuite/v1/:id', async (req, res) => {
 router.put('/api/gsuite/v1/:id', validateJSON('mailbox'), async (req, res) => {
   const _id = req.params.id
   const mailboxResponse = await mailboxService.updateMailBox(_id, req.body)
-  if(mailboxResponse.error) res.status(400).send(error)
+  //if(mailboxResponse.error) res.status(400).send(error)
   res.status(200).send(mailboxResponse)
 })
 
