@@ -2,17 +2,74 @@ const MailBox = require('../models/mailbox')
 const sequelize = require('../db/sequelize')
 
 class MailBoxService {
-  createMailBox(mailboData){
-
+  async createMailBox(mailboxJSON){
+    try {
+      const mailboxData = MailBoxService.utilizeRequestJSON(mailboxJSON)
+      const mailbox = await MailBox.create(mailboxData)
+      return MailBoxService.responseJSON(mailbox)
+    }catch(error) {return {error}}
   }
-  updateMailBoxById(id){
-
+  async updateMailBox(mailboxJSON){
+    try {
+      const mailboxData = MailBoxService.utilizeRequestJSON(mailboxJSON)
+      const updateData = mailboxData
+      delete updateData.mailBoxId
+      const mailbox = await MailBox.update(updateData, {
+        where: {
+          mailBoxId: mailboxData.mailBoxId
+        }
+      })
+      return MailBoxService.responseJSON(mailbox)
+    }catch(error) {return {error}}
   }
-  getMailBoxById(id){
-
+  async getMailBoxById(id){
+    try {
+      const mailbox = await MailBox.findOne({
+        where: {
+          mailBoxId: id
+        }
+      })
+      return MailBoxService.responseJSON(mailbox)
+    }catch(error) {return {error}}
   }
-  deleteMailBoxById(id){
-
+  async getMailBoxesOfCustomer(customerId) {
+    try {
+      const mailboxes = await MailBox.findAll({
+        attributes: ['mailBoxId'],
+        where: {
+          UUID: customerId
+        }
+      })
+      return await Promise.all(mailboxes.map(async (mailbox) => await this.getMailBoxById(mailbox.mailBoxId)))
+    }catch(error) {return {error}}
+  }
+  async deleteMailBoxById(id){
+    try {
+      const mailbox = await MailBox.destroy({
+        where: {
+          mailBoxId: id
+        }
+      })
+      return MailBoxService.responseJSON(mailbox)
+    }catch(error) {return {error}}
+  }
+  static responseJSON(mailbox){
+    return {
+      "emailAliases": mailbox.aliases.map((alias) => ({
+        "name": "aliasName",
+        "value": alias,
+        "valueType": "string"
+      })),
+      "primaryEmail": mailbox.primaryEmailAddress,
+      "UUID": mailbox.UUID
+    }
+  }
+  static utilizeRequestJSON(json){
+    return {
+      primaryEmailAddress: json.primaryEmail,
+      aliases: json.emailAliases.map((alias) => alias.value),
+      UUID: json.UUID
+    }
   }
 }
 
